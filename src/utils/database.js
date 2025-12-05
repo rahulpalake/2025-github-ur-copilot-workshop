@@ -1,6 +1,13 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
+// Validate required environment variables
+if (!process.env.DATABASE_URL) {
+  console.error('✗ ERROR: DATABASE_URL environment variable is not set');
+  console.error('  Please create a .env file based on .env.example');
+  process.exit(1);
+}
+
 // Initialize Sequelize with DATABASE_URL from environment
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
