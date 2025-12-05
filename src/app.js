@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const { sequelize, testConnection } = require('./utils/database');
@@ -13,8 +14,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Status ping route
-app.get('/', (req, res) => {
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '../public')));
+
+// API Status ping route
+app.get('/api/status', (req, res) => {
   res.status(200).json({
     status: 'success',
     message: 'Expense Tracker API is running',
@@ -55,9 +59,9 @@ const startServer = async () => {
     // Start listening
     app.listen(PORT, () => {
       console.log(`✓ Server is running on port ${PORT}`);
-      console.log(`✓ API available at http://localhost:${PORT}`);
-      console.log(`✓ Status endpoint: http://localhost:${PORT}/`);
-      console.log(`✓ Expenses endpoint: http://localhost:${PORT}/api/expenses`);
+      console.log(`✓ Frontend: http://localhost:${PORT}`);
+      console.log(`✓ API Status: http://localhost:${PORT}/api/status`);
+      console.log(`✓ API Expenses: http://localhost:${PORT}/api/expenses`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

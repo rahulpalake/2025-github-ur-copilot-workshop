@@ -1,9 +1,10 @@
 # Expense Tracker API
 
-A RESTful API for tracking expenses built with Node.js, Express, and PostgreSQL via Sequelize.
+A full-stack Expense Tracker application with a REST API backend built with Node.js, Express, PostgreSQL via Sequelize, and an interactive frontend with real-time data visualization using Chart.js.
 
 ## 📋 Features
 
+### Backend Features
 - Create, read, update, and delete expenses
 - Store expense details including amount, category, description, and date
 - PostgreSQL database with Sequelize ORM
@@ -11,10 +12,28 @@ A RESTful API for tracking expenses built with Node.js, Express, and PostgreSQL 
 - Environment-based configuration
 - Automatic database synchronization on startup
 
+### Frontend Features
+- 📊 **Interactive Dashboard** with real-time expense summaries
+- 📈 **Data Visualization** with Chart.js
+  - Pie/Doughnut chart showing expenses by category
+  - Bar chart showing 7-day spending trends
+- 💰 **Expense Management** with full CRUD operations
+- 🔍 **Filter & Search** by category
+- 🎨 **Modern UI** with smooth animations and responsive design
+- 📱 **Mobile-Friendly** interface
+- 🔔 **Toast Notifications** for user feedback
+- ⚡ **Real-time Updates** after any operation
+
 ## 🏗️ Project Structure
 
 ```
 expense-tracker-api/
+├── public/                          # Frontend files
+│   ├── css/
+│   │   └── styles.css              # Application styles
+│   ├── js/
+│   │   └── app.js                  # Frontend logic and Chart.js integration
+│   └── index.html                  # Main application page
 ├── src/
 │   ├── controllers/
 │   │   └── expenseController.js    # Business logic for expense operations
@@ -89,13 +108,46 @@ npm start
 
 The server will start on `http://localhost:3000` (or the PORT specified in your .env file).
 
+### Access the Application
+
+Once the server is running:
+- **Frontend Dashboard**: Open `http://localhost:3000` in your browser
+- **API Status**: `http://localhost:3000/api/status`
+- **API Endpoints**: `http://localhost:3000/api/expenses`
+
+## 🎨 Frontend Features
+
+### Dashboard
+The main dashboard provides:
+- **Summary Cards**: Total expenses, transaction count, and average expense
+- **Category Chart**: Doughnut chart showing expense distribution by category
+- **Trend Chart**: Bar chart displaying spending over the last 7 days
+
+### Expense Management
+- **Add Expenses**: Simple form with amount, category, description, and date
+- **Edit Expenses**: Click edit button to modify existing expenses
+- **Delete Expenses**: Remove expenses with confirmation dialog
+- **Filter by Category**: Quick filter to view expenses by specific category
+
+### Data Visualization with Chart.js
+The application uses Chart.js for beautiful, interactive charts:
+- **Category Distribution**: Visual breakdown of spending by category
+- **7-Day Trend**: Track daily expenses over the past week
+- **Real-time Updates**: Charts update automatically when data changes
+
 ## 📡 API Endpoints
 
 ### Status Check
 
-**GET /** - Check API status
+**GET /** - Frontend Dashboard (HTML)
 ```bash
-curl http://localhost:3000/
+# Open in browser
+http://localhost:3000
+```
+
+**GET /api/status** - Check API status (JSON)
+```bash
+curl http://localhost:3000/api/status
 ```
 
 Response:
@@ -254,6 +306,7 @@ Response:
 
 ## 🛠️ Technologies Used
 
+### Backend
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web framework
 - **Sequelize** - ORM for PostgreSQL
@@ -261,6 +314,13 @@ Response:
 - **dotenv** - Environment variable management
 - **cors** - Cross-origin resource sharing
 - **nodemon** - Development auto-restart utility
+
+### Frontend
+- **HTML5** - Structure
+- **CSS3** - Styling with animations and responsive design
+- **JavaScript (ES6+)** - Frontend logic
+- **Chart.js** - Data visualization library
+- **Font Awesome** - Icon library
 
 ## 🔒 Database Connection
 
@@ -278,16 +338,23 @@ On startup, the application:
 - Timestamps (`createdAt`, `updatedAt`) are automatically managed by Sequelize
 - CORS is enabled for all origins (configure as needed for production)
 - No authentication is implemented in this version
+- The frontend is a single-page application (SPA) that communicates with the API via AJAX
+- Charts update in real-time as you add, edit, or delete expenses
+- Category icons are displayed using emoji for better visual recognition
 
 ## 🚧 Future Enhancements
 
 - User authentication and authorization
-- Expense categories management
-- Search and filter capabilities
+- Multiple user accounts with separate expense tracking
+- Expense categories management (custom categories)
+- Advanced search and filter capabilities (date ranges, amount ranges)
 - Pagination for large datasets
-- Budget tracking
-- Analytics and reporting
-- Data export functionality
+- Budget tracking and alerts
+- Analytics and reporting (monthly/yearly summaries)
+- Data export functionality (CSV, PDF)
+- Receipt image upload and storage
+- Recurring expense support
+- Currency conversion for international expenses
 
 ## 📄 License
 
