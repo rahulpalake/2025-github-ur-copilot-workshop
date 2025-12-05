@@ -206,27 +206,72 @@ function renderExpenses(expensesToRender) {
         return;
     }
     
-    expensesList.innerHTML = expensesToRender.map(expense => `
-        <div class="expense-item">
-            <div class="expense-category">${categoryIcons[expense.category] || '📦'}</div>
-            <div class="expense-details">
-                <div class="expense-description">${expense.description}</div>
-                <div class="expense-meta">
-                    <span><i class="fas fa-tag"></i> ${expense.category}</span>
-                    <span><i class="fas fa-calendar"></i> ${formatDate(expense.date)}</span>
-                </div>
-            </div>
-            <div class="expense-amount">$${parseFloat(expense.amount).toFixed(2)}</div>
-            <div class="expense-actions">
-                <button class="btn btn-edit" onclick="editExpense(${JSON.stringify(expense).replace(/"/g, '&quot;')})">
-                    <i class="fas fa-edit"></i> Edit
-                </button>
-                <button class="btn btn-danger" onclick="deleteExpense(${expense.id})">
-                    <i class="fas fa-trash"></i> Delete
-                </button>
-            </div>
-        </div>
-    `).join('');
+    expensesList.innerHTML = ''; // Clear existing content
+    
+    expensesToRender.forEach(expense => {
+        const expenseItem = document.createElement('div');
+        expenseItem.className = 'expense-item';
+        
+        // Category icon
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'expense-category';
+        categoryDiv.textContent = categoryIcons[expense.category] || '📦';
+        
+        // Expense details
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'expense-details';
+        
+        const descriptionDiv = document.createElement('div');
+        descriptionDiv.className = 'expense-description';
+        descriptionDiv.textContent = expense.description;
+        
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'expense-meta';
+        metaDiv.innerHTML = `
+            <span><i class="fas fa-tag"></i> ${escapeHtml(expense.category)}</span>
+            <span><i class="fas fa-calendar"></i> ${formatDate(expense.date)}</span>
+        `;
+        
+        detailsDiv.appendChild(descriptionDiv);
+        detailsDiv.appendChild(metaDiv);
+        
+        // Amount
+        const amountDiv = document.createElement('div');
+        amountDiv.className = 'expense-amount';
+        amountDiv.textContent = `$${parseFloat(expense.amount).toFixed(2)}`;
+        
+        // Actions
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'expense-actions';
+        
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn btn-edit';
+        editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit';
+        editBtn.addEventListener('click', () => editExpense(expense));
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-danger';
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Delete';
+        deleteBtn.addEventListener('click', () => deleteExpense(expense.id));
+        
+        actionsDiv.appendChild(editBtn);
+        actionsDiv.appendChild(deleteBtn);
+        
+        // Append all elements
+        expenseItem.appendChild(categoryDiv);
+        expenseItem.appendChild(detailsDiv);
+        expenseItem.appendChild(amountDiv);
+        expenseItem.appendChild(actionsDiv);
+        
+        expensesList.appendChild(expenseItem);
+    });
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // Render Empty State
